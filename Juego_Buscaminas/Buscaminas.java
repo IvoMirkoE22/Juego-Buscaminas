@@ -53,7 +53,7 @@ public class Buscaminas
      * Verifica si el juego comenzo o no
      * ¿El juego ha comenzado?
      */
-    private boolean juegoIniciado;
+    private boolean juegoIniciado ;
     
     /**
      * Contructor de Buscaminas. Lanza un juego buscaminas con un tablero
@@ -77,7 +77,7 @@ public class Buscaminas
         if(juegoIniciado){
             throw new IllegalArgumentException("El juego finalizo.Crea un nuevo juego para comenzar de nuevo"); 
         }
-        juegoInciado = true; //Juego iniciado
+        juegoIniciado = true; //Juego iniciado
         
         while(!juego.juegoTerminado()){
             /*
@@ -123,10 +123,45 @@ public class Buscaminas
         juegoIniciado = false;
     }
     /**
-     * Hacer este metodo 
+     * Ejecuta un comando del usuario, delegando la acción apropiada al objeto de estado de juego.
+     * @param comando es el comando a ejecutar
+     * @param fila es la fila de la celda afectada
+     * @param columna es la columna de la celda afectada
      */
     public void ejecutarComandoUsuario(String comando,int fila,int columna){
+        //-----------ABRIR-----------
+        if(comando.equals(CMD_ABRIR)){
+            //solo se puede abrir si la celda no está abierta ni bloqueada.
+            if(!juego.estaAbierta(fila, columna) && !juego.estaBloqueada(fila,columna)){
+                juego.abrir(fila, columna);
+            }else{
+                System.out.println("No se puede abrir. La celda ya esta abierta o bloqueada.");
+            }
+        }
+        else{
+            //-------BLOQUEAR-------
+            if(comando.equals(CMD_BLOQUEAR)){
+                //solo se puede bloquear si la celda esta cerrada y sin bloqueo.
+                if(!juego.estaAbierta(fila,columna) && !juego.estaBloqueada(fila,columna)){
+                    juego.bloquear(fila, columna);
+                }
+                else{
+                    System.out.println("No se puede bloquear.La celda ya esta bloqueada o abierta.");
+                }
+            }
+            else{
+                //---------DESBLOQUEAR----------
+                if(juego.estaBloqueada(fila, columna)){
+                    //Solo se puede desbloquear si la celda esta bloqueada.
+                    juego.desbloquear(fila, columna);
+                }
+                else {
+                    System.out.println("No se puede desbloquear.La celda no esta bloqueada.");
+                }
+            }
+        }
         
-    }
-    
+        //-----------COMANDO DESCONOCIDO------------
+        System.out.println("Comando desconocido: "+ comando);
+    }   
 }
