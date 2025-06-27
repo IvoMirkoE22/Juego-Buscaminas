@@ -133,5 +133,175 @@ public class EstadoJuegoBuscaminas
        */
        public void abrir(int fila, int columna){
            //Este método abre la celda en posición (fila,columna)
+           /*
+            * Primero verificamos, si la coordenada de fila y columna resulta no ser válida
+            * se lanza una ecepción que estaa fuera de rango..
+            */
+           if(!esCoordenadaValida(fila, columna)){
+               throw new IllegalArgumentException("Esta fuera de rango");
+           }
+           //Crea una variable llamada matriz que representa la celda que queremos abrir
+           CeldaBuscaminas matriz = tablero[fila][columna];
+           //Solo se puede abrir una celda cerrada y no bloqueada
+           //Si ya está abierta o tiene bandera(bloqueada), no se puede abrir
+           if(matriz.estaAbierta() || matriz.estaBloqueada()){
+               throw new IllegalArgumentException("La celda debe estar cerrada y no bloqueada");
+           }
+           
+           matriz.abrir();
+           //Si esa celda tiene una mina,perdes.Se termina el juego.
+           if(matriz.tieneMina()){
+               terminarJuego();
+           }
+           /*
+            * Si la celda abierta no tiene minas alrededor, entonces
+            * Se activa el efecto cascada, abre todas las celdas vecinas que también
+            * estén cerradas y no tengan minas
+            */
+           if(contarMinasVecinas(fila,columna) == 0){
+               for(int i = fila-1; i <= fila+1;i++){
+                   for(int j = columna - 1; j <= columna+1; j++){
+                       if(esCoordenadaValida(i,j)){
+                           if(tablero[i][j].estaCerrada() && !tablero[i][j].tieneMina() && !tablero[i][j].estaBloqueada()){
+                               abrir(i,j);
+                           }
+                       }
+                   }
+               }
+           }
+           /*
+            * Si después de abrir la celda (y potencialmente del efecto cascada)solo queda cerradas
+            * las celdas con minas (es decir, no quedan celdas sin minas cerradas), el juego también termina.
+            * Verifica si ya se abrieron todas las celdas que no tienen minas.
+            * Si solo quedan cerradas las que tienen minas, significa que ganaste, y el juego termina automaticamente.
+            */
+            if(contarCeldasCerradas() == Buscaminas.MINAS){
+                terminarJuego();
+            }
+           
        }
-}
+       /**
+        * Finaliza el juego
+        */
+       public void terminarJuego() {
+           juegoTerminado = true;
+       }
+       
+       /**
+        * Indica si el jugador ganó. El juego debe haber terminado.
+        * @return true si las celdas cerradas son iguales a la cantidad de minas
+        * @throws IllegalSatateException si el juego no ha terminado
+        */
+        public boolean esVictoria(){
+            if (!juegoTerminado) throw new IllegalStateException("El juego no ha terminado");
+            return contarCeldasCerradas() == Buscaminas.MINAS;
+        }
+       
+        /**
+         * Cuenta el número de minas en las celdas vecinas a la celda en posición (fila,columna)
+         * @param fila coordenada de fila de la celda a verificar
+         * @param columna coordenada de columna de la celda a verificar
+         * @return número de celdas vecinas que contienen minas. El resultado esta ente 0 y 8.
+         */
+        public int contarMinasVecinas(int fila, int columna){
+            
+            int suma=0;
+            for(int i = fila -1; i <= fila+1;i++){
+                for(int j = columna-1; j<=columna+1; j++){
+                    if(esCoordenadaValida(i,j) && !(i == fila && j == columna)){
+                        if(tablero[i][j].tieneMina()){
+                            suma++;
+                        }
+                    }
+                }
+            }
+            return suma;
+        }
+        
+        /**
+         * Abre todas las celdas cerradas en el tablero,independientemente de si tienen minas
+         * o están bloqueadas. Las celdas bloqueadas deben desbloquearse antes de abrirlas.
+         */
+        public void abrirTodasLasCeldas() {
+            for(int i=0; i < Buscaminas.FILAS; i++){
+                for(int j=0; j < Buscaminas.COLUMNAS; j++){
+                    if(tablero[i][j].estaCerrada()){
+                        if(tablero[i][j].estaBloqueada()){
+                            tablero[i][j].desbloquear();
+                        }
+                        tablero[i][j].abrir();
+                    }
+                }
+            }
+        }
+        
+        /**
+         * Verifica si las coordenadas son válidas.
+         * @param fila número de fila a verififcar
+         * @param columna número de columna a verificar
+         * @return true si las coordenadas están dentro del rango válido del tablero
+         */
+        public static boolean esCoordenadaValida(int fila, int columna){
+            return fila >= 0 && fila < Buscaminas.FILAS && columna >= 0 && columna < Buscaminas.COLUMNAS;
+        }
+        
+        /**
+         * Calcula el número de celdas cerradas en el tablero.
+         * @return número de celdas cerradas en el tablero.
+         */
+        public int contarCeldasCerradas(){
+            int suma= 0;
+            for(int i=0; i < Buscaminas.FILAS; i++){
+                for(int j=0; j < Buscaminas.COLUMNAS; j++){
+                    if(tablero[i][j].estaCerrada()){
+                        suma++;
+                    }
+                }
+            }
+            return suma;
+        }
+        
+        /**
+         * Proporciona una representación textual del estado del juego.
+         * @return String que representa visualmente el estado del juego.
+         */
+        public String toString() {
+            StringBuilder resultado = new StringBuilder();
+            
+            if(juegoTerminado){
+                resultado.append("Juego Terminado.\n");
+            } else {
+                resultado.append("Juego en Progreso.\n");
+            }
+            
+            resultado.append("   0  1  2  3  4  5  6  7  8  \n");
+            resultado.append("   --------------------------\n");
+            
+            for (int fila = 0; fila < Buscaminas.FILAS; fila++){
+                resultado.append(fila).append("|");
+                for (int columna = 0; columna < Buscaminas.COLUMNAS; columna++){
+                    CeldaBuscaminas celdaActual = tablero[fila][columna];
+                    
+                    if(celdaActual.estaAbierta()){
+                        if(celdaActual.tieneMina()) {
+                            resultado.append(" X ");
+                        } else {
+                            resultado.append(" ").append(this.contarMinasVecinas(fila,columna)).append(" ");
+                        }
+                    } else {
+                        if(celdaActual.estaBloqueada()) {
+                            resultado.append(" B ");
+                        } else {
+                            resultado.append(" - ");
+                        }
+                    }
+                } 
+                resultado.append("|").append(fila).append("\n");
+            }
+            
+            resultado.append("   --------------------------\n");
+            resultado.append("   0  1  2  3  4  5  6  7  8 \n");
+
+            return resultado.toString();
+        }       
+    }
