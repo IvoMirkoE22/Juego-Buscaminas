@@ -1,6 +1,6 @@
 
 /**
- * La buscaminas se encargara del estado general de juego
+ * La clase buscaminas se encargara del estado general de juego
  * y la interaccion con el usuario. Basicamente prepara el tablero,
  * prepara el tablero, pondra minas y deja el juego listo para comenzar. 
  * 

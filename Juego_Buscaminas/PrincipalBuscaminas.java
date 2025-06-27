@@ -5,7 +5,7 @@
  * que se ejecuta cuando se corra el proyecto
  * 
  * @author (Ivo Narváez) 
- * @version (0.1)
+ * @version (1.0)
  */
 public class PrincipalBuscaminas
 {
