@@ -1,50 +1,214 @@
-
 import java.util.Scanner;
 /**
- * LectorEntada lee los comando del buscaminas ingresados por el usuario a través de entrada estándar.
- * LectorEntrada es responsable de validar los comandos y devolverlos ya procesados.
+ * LectorEntada lee y valida los comandos que el usuario escribe por consola
+ * para el juego Buscaminas. Devuelve el comando y las coordenadas ya procesados.
+ * 
+ * Formato de entrada esperada (en una sola línea)
+ *     <comando> <fila> <columna>
+ * donde comando ∈ {abrir, bloquear, desbloquear]
+ *       fila    ∈ [0, Buscaminas.FILAS )
+ *       columna ∈ [0, Buscaminas.COLUMNAS)
+ *
+ * Ejemplo: abrir 3 4
  * 
  * @author (Ivo Narváez) 
  * @version (1.0)
  */
 public class LectorEntrada
 {
+    /*------------------- Campos ----------------------*/
     /**
      * Scanner para leer la entrada
      */
-    private Scanner lector;
+    private Scanner lector;       //Objeto Scanner para leer desde System.in
     
     /**
      * Almacena el comando ingresado por el usuario
      */
-    private String comando;
+    private String comando;       //Último comando válido leído
     
     /**
      * Almacena la coordenada de fila ingresada por el usuario
      */
-    private int coordenadaFila;
+    private int coordenadaFila;    //Última fila válida leída
     
     /**
      * Almacena la coordenada de columna ingresada por el usuario
      */
-    private int coordenadaColumna;
+    private int coordenadaColumna; //Última columna válida leída
     
     /**
      * Indica si la entrada ya fue leida (evita recuperar resultados antes de leer).
      */
-    private boolean entradaLeida;
+    private boolean entradaLeida;  // True -> ya se llamó a leerEntradaUsuario() con éxito
     
+    /*------------------ Constructor ------------------------*/
     /**
      * Crea un nuevo LectorEntrada que lee texto de la entrada estándar.
+     * Los campos se inicializan en valores "nulos" o sentinelas.
      */
     public LectorEntrada()
     {
         //System.in se usa para leer desde el teclado
-        lector = new Scanner(System.in);
-        comando = null; //no hay nada
-        coordenadaFila = -1; //fila ingresada
-        coordenadaColumna = -1; //columna ingresada
+        lector = new Scanner(System.in); // Instancia el scanner
+        comando = null; //No hay nada, sin comando todavía
+        coordenadaFila = -1; //Fila ingresada, valor sentínela (fila inválida)
+        coordenadaColumna = -1; //Columna ingresada, valor sentínela (columna inválida)
     }
 
+    /*------------------- Lectura principal ----------------------*/
+    /**
+     * Lee la entrada del usuario desde stdin y guarda el comando y coordenadas en los campos correspondientes.
+     * El método continuará leyendo hasta que reciba un comando válido.
+     * Lee, valida y almacena un comando del usuario.
+     * El método permanece en un bucle hasta que el usuario introduce una línea válida.
+     * Tras una lectura exitosa, los campos comando, coordenadaFila y coordenadaColumna
+     * quedan listos para usarse mediante sus getters.
+     */
+    public void leerEntradaUsuario() {
+        boolean entradaCorrecta = false;
+        do {
+            System.out.println(uso("")); //Muestra intrucciones de uso
+            String[] entrada = lector.nextLine().trim().toLowerCase().split(" "); //lee línea, quita espacios extras, convierte a minúsculas y separa por espacios
+            if (entrada.length != 3) { //Deben venir exactamente 3 tokens
+                System.out.println(uso("Número incorrecto de argumentos. "));
+            }
+            else  {
+                  if(!esComandoValido(entrada[0])){ //Válida comando
+                      System.out.println(uso("Comando inválido."));
+                  }
+                  else{
+                      if(!esCoordenadaFilaValida(entrada[1]) || !esCoordenadaColumnaValida(entrada[2])){//Válida fila y columna
+                          System.out.println(uso("Coordenada(s) inválida(s)."));
+                      }
+                      else {    //Todo okay
+                          entradaCorrecta = true;
+                          comando = entrada[0];                         //Guarda resultados
+                          coordenadaFila = Integer.parseInt(entrada[1]);
+                          coordenadaColumna = Integer.parseInt(entrada[2]);
+                      }
+                  }
+            }
+        } while (!entradaCorrecta); //Repite hasta ser válido
+        entradaLeida = true; //Lectura exitosa
+    }
     
+    /*---------------------Validaciones auxiliares--------------------------*/
+    /**
+     * Verifica si un string es un comando válido.
+     * Devuelve true si el string comando coincide con alguna constante de Buscaminas
+     * @param comando es el string a verificar
+     * @return true si y solo si el parámetro es un comando válido
+     */
+    private boolean esComandoValido(String comando){
+        if(comando == null){
+            return false;
+        }
+        else {
+            return comando.equals(Buscaminas.CMD_ABRIR) ||
+                   comando.equals(Buscaminas.CMD_BLOQUEAR) ||
+                   comando.equals(Buscaminas.CMD_DESBLOQUEAR);
+        }
+    }
+    
+    /**
+     * Verifica si un string es una coordenada de fila válida.
+     * Devuelve true si coordenada representa una fila válida (0 <= fila < FILAS)
+     * @param coordenada es el string a verificar
+     * @return true si y solo si el parámetro es una coordenada de fila válida
+     */
+    private boolean esCoordenadaFilaValida(String coordenada){
+        if(coordenada == null) {
+            return false;
+        }
+        else{
+            try {
+                int coord = Integer.parseInt(coordenada);
+                return 0 <= coord && coord < Buscaminas.FILAS;
+            }
+            catch (Exception e) {
+                // el string no es un número
+                return false;
+            }
+        }
+    }
+    
+    /**
+     * Verifica si un string es una coordenada de columna válida.
+     * Devuelve true si coordenada representa una columna válida (0 <= col < COLUMNAS)
+     * @param coordenada es el string a verificar
+     * @return true si y solo si el parámetro es una coordenada de columna válida
+     */
+    private boolean esCoordenadaColumnaValida(String coordenada) {
+        if(coordenada == null){
+            return false;
+        }
+        else{
+            try {
+                int coord = Integer.parseInt(coordenada);
+                return 0 <= coord && coord < Buscaminas.COLUMNAS;
+            }
+            catch (Exception e){
+                //el string no es un número
+                return false;
+            }
+        }
+    }
+    
+    /*---------------------Mensaje de ayuda--------------------------*/
+    /**
+     * Mejora un mensaje de error con intrucciones de uso.
+     * Contruye un mensaje de uso combinando el texto de error con las instrucciones.
+     * @param mensajeError es el mensaje de error a mejorar
+     * @return un mensaje que incluye el parámetro con instrucciones de uso
+     */
+    private static String uso(String mensajeError) {
+        if (mensajeError == null ){
+            throw new IllegalArgumentException("Mensaje de error nulo");
+        }
+        String res = mensajeError + "\n";
+        res += "\"" + Buscaminas.CMD_ABRIR + "\", ";
+        res += "\"" + Buscaminas.CMD_BLOQUEAR + "\" o ";
+        res += "\"" + Buscaminas.CMD_DESBLOQUEAR + "\" ";
+        res += "son comandos aceptados.\n";
+        res += "Uso: <comando> <fila> <columna>";
+        return res;
+    }
+    
+    /*---------------------Getters seguros--------------------------*/
+    /**
+     * Obtiene el comando leído
+     * Precondición debe llamarse a leerEntradaUsuario() primero.
+     * @return el comando leído como string
+     */
+    public String getComando(){
+        if (!entradaLeida) {
+            throw new IllegalStateException("Debe llamar a leerEntradaUsuario() antes de obtener el comando");
+        }
+        return this.comando;
+    }
+    
+    /**
+     * Obtiene la coordenada de fila leída.
+     * Precondición: debe llamarse a leerEntradaUsuario() primero.
+     * @return la coordenada de fila leída
+     */
+    public int getFila() {
+        if(!entradaLeida) {
+            throw new IllegalStateException("Debe llamar a leerEntradaUsuario() antes de obtener el comando");
+        }
+        return this.coordenadaFila;
+    }
+    
+    /**
+     * Obtiene la coordenada de fila leída
+     * Precondición: debe llamarse a leerEntradaUsuario() primero.
+     * @return la coordenada de fila leída
+     */
+    public int getColumna(){
+        if(!entradaLeida){
+            throw new IllegalStateException("Debe llamar a leerEntradaUsuario() antes de obtener el comando");
+        }
+        return this.coordenadaColumna;
+    }
 }
