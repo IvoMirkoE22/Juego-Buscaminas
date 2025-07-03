@@ -16,47 +16,43 @@ import java.util.Scanner;
  */
 public class LectorEntrada
 {
-    /*------------------- Campos ----------------------*/
     /**
      * Scanner para leer la entrada
      */
-    private Scanner lector;       //Objeto Scanner para leer desde System.in
+    private Scanner lector;       
     
     /**
      * Almacena el comando ingresado por el usuario
      */
-    private String comando;       //Último comando válido leído
+    private String comando;       
     
     /**
      * Almacena la coordenada de fila ingresada por el usuario
      */
-    private int coordenadaFila;    //Última fila válida leída
+    private int coordenadaFila;    
     
     /**
      * Almacena la coordenada de columna ingresada por el usuario
      */
-    private int coordenadaColumna; //Última columna válida leída
+    private int coordenadaColumna; 
     
     /**
      * Indica si la entrada ya fue leida (evita recuperar resultados antes de leer).
      */
-    private boolean entradaLeida;  // True -> ya se llamó a leerEntradaUsuario() con éxito
+    private boolean entradaLeida;  
     
-    /*------------------ Constructor ------------------------*/
     /**
      * Crea un nuevo LectorEntrada que lee texto de la entrada estándar.
      * Los campos se inicializan en valores "nulos" o sentinelas.
      */
     public LectorEntrada()
     {
-        //System.in se usa para leer desde el teclado
-        lector = new Scanner(System.in); // Instancia el scanner
-        comando = null; //No hay nada, sin comando todavía
-        coordenadaFila = -1; //Fila ingresada, valor sentínela (fila inválida)
-        coordenadaColumna = -1; //Columna ingresada, valor sentínela (columna inválida)
+        lector = new Scanner(System.in); 
+        comando = null; 
+        coordenadaFila = -1; 
+        coordenadaColumna = -1; 
     }
 
-    /*------------------- Lectura principal ----------------------*/
     /**
      * Lee la entrada del usuario desde stdin y guarda el comando y coordenadas en los campos correspondientes.
      * El método continuará leyendo hasta que reciba un comando válido.
@@ -68,32 +64,32 @@ public class LectorEntrada
     public void leerEntradaUsuario() {
         boolean entradaCorrecta = false;
         do {
-            System.out.println(uso("")); //Muestra intrucciones de uso
-            String[] entrada = lector.nextLine().trim().toLowerCase().split(" "); //lee línea, quita espacios extras, convierte a minúsculas y separa por espacios
-            if (entrada.length != 3) { //Deben venir exactamente 3 tokens
+            System.out.println(uso(""));
+            String[] entrada = lector.nextLine().trim().toLowerCase().split(" ");
+                                                                                 
+            if (entrada.length != 3) {
                 System.out.println(uso("Número incorrecto de argumentos. "));
             }
             else  {
-                  if(!esComandoValido(entrada[0])){ //Válida comando
+                  if(!esComandoValido(entrada[0])){ 
                       System.out.println(uso("Comando inválido."));
                   }
                   else{
-                      if(!esCoordenadaFilaValida(entrada[1]) || !esCoordenadaColumnaValida(entrada[2])){//Válida fila y columna
+                      if(!esCoordenadaFilaValida(entrada[1]) || !esCoordenadaColumnaValida(entrada[2])){
                           System.out.println(uso("Coordenada(s) inválida(s)."));
                       }
-                      else {    //Todo okay
+                      else { 
                           entradaCorrecta = true;
-                          comando = entrada[0];                         //Guarda resultados
+                          comando = entrada[0];                        
                           coordenadaFila = Integer.parseInt(entrada[1]);
                           coordenadaColumna = Integer.parseInt(entrada[2]);
                       }
                   }
             }
-        } while (!entradaCorrecta); //Repite hasta ser válido
-        entradaLeida = true; //Lectura exitosa
+        } while (!entradaCorrecta); 
+        entradaLeida = true; 
     }
     
-    /*---------------------Validaciones auxiliares--------------------------*/
     /**
      * Verifica si un string es un comando válido.
      * Devuelve true si el string comando coincide con alguna constante de Buscaminas
@@ -155,7 +151,6 @@ public class LectorEntrada
         }
     }
     
-    /*---------------------Mensaje de ayuda--------------------------*/
     /**
      * Mejora un mensaje de error con intrucciones de uso.
      * Contruye un mensaje de uso combinando el texto de error con las instrucciones.
@@ -175,7 +170,6 @@ public class LectorEntrada
         return res;
     }
     
-    /*---------------------Getters seguros--------------------------*/
     /**
      * Obtiene el comando leído
      * Precondición debe llamarse a leerEntradaUsuario() primero.

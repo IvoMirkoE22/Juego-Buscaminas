@@ -42,7 +42,7 @@ public class Buscaminas
     /**
      * Lector de entrada para procesar comando del usuario
      */
-    private LectorEntada lector;
+    private LectorEntrada lector;
     
     /**
      * Objeto que representa el estado interno del juego Buscaminas
@@ -63,10 +63,9 @@ public class Buscaminas
      */
     public Buscaminas(){
         
-        lector = new LectorEntrada();//crea el lector de entrada
-        juego = new EstadoJuegoBuscaminas();//Inicializa el estado del juego
-        
-        juegoIniciado = false; //Juego no iniciado
+        lector = new LectorEntrada();
+        juego = new EstadoJuegoBuscaminas();
+        juegoIniciado = false; 
         
     }
     
@@ -77,49 +76,31 @@ public class Buscaminas
         if(juegoIniciado){
             throw new IllegalArgumentException("El juego finalizo.Crea un nuevo juego para comenzar de nuevo"); 
         }
-        juegoIniciado = true; //Juego iniciado
+        juegoIniciado = true; 
         
         while(!juego.juegoTerminado()){
-            /*
-             * muestra por consola el estado actual del tablero,
-             * con celdad ya abiertas, cerradas o bloqueadas
-             */
+            
             System.out.println(juego.toString());
-            /*
-             *Espera a que el jugador escriba un comando válido, como
-             *abrir, bloquear o desbloquear y las coordenadas fila y
-             *columna de la celd que se quiere afectar
-             */
+            
             lector.leerEntradaUsuario();
-            /*
-             * Guarda lo que el jugador escribio para poder procesarlo
-             */
+            
             String comando = lector.getComando();
             int fila = lector.getFila();
             int columna = lector.getColumna();
-            /*
-             * Ejecuta la acción que pidio el usuario sobre la celda indicada
-             */
+            
             ejecutarComandoUsuario(comando,fila,columna);
             
         }
-        /*
-         * Cuando el bucle o juego termina se evalua si el jugador gano o perdio
-         */
+        
         if(juego.esVictoria()){
             System.out.println("Ganaste");
         }else{
             System.out.println("Perdiste");
         }
-        /*
-         * Abre todas as las celdas del tablero, para mostrar que hay en
-         * cada celda(por ejemplo las minas) y lo imprime
-         */
+        
         juego.abrirTodasLasCeldas();
         System.out.println(juego.toString());
-        /*
-         * Marca el juego como ya terminado, para no poder jugar otra vez con el mismo objeto
-         */
+        
         juegoIniciado = false;
     }
     /**
@@ -129,9 +110,7 @@ public class Buscaminas
      * @param columna es la columna de la celda afectada
      */
     public void ejecutarComandoUsuario(String comando,int fila,int columna){
-        //-----------ABRIR-----------
         if(comando.equals(CMD_ABRIR)){
-            //solo se puede abrir si la celda no está abierta ni bloqueada.
             if(!juego.estaAbierta(fila, columna) && !juego.estaBloqueada(fila,columna)){
                 juego.abrir(fila, columna);
             }else{
@@ -139,9 +118,8 @@ public class Buscaminas
             }
         }
         else{
-            //-------BLOQUEAR-------
+            
             if(comando.equals(CMD_BLOQUEAR)){
-                //solo se puede bloquear si la celda esta cerrada y sin bloqueo.
                 if(!juego.estaAbierta(fila,columna) && !juego.estaBloqueada(fila,columna)){
                     juego.bloquear(fila, columna);
                 }
@@ -150,9 +128,7 @@ public class Buscaminas
                 }
             }
             else{
-                //---------DESBLOQUEAR----------
                 if(juego.estaBloqueada(fila, columna)){
-                    //Solo se puede desbloquear si la celda esta bloqueada.
                     juego.desbloquear(fila, columna);
                 }
                 else {
@@ -161,7 +137,5 @@ public class Buscaminas
             }
         }
         
-        //-----------COMANDO DESCONOCIDO------------
-        System.out.println("Comando desconocido: "+ comando);
     }   
 }

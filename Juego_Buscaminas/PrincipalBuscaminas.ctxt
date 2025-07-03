@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=PrincipalBuscaminas
+comment0.text=\r\n\ Esta\ clase\ es\ la\ que\ arranca\ todo\ el\ programa.\r\n\ Tiene\ el\ m\u00E9todo\ main\ ,\ que\ es\ el\ primer\ m\u00E9todo\r\n\ que\ se\ ejecuta\ cuando\ se\ corra\ el\ proyecto\r\n\ \r\n\ @author\ (Ivo\ Narv\u00E1ez)\ \r\n\ @version\ (1.0)\r\n
+comment1.params=args
+comment1.target=void\ main(java.lang.String[])
+comment1.text=\r\n\ M\u00E9todo\ main\ que\ inciar\ el\ juego\r\n\ @param\ args\ son\ los\ par\u00E1metros\ de\ linea,\ no\ se\ usa\r\n\ pero\ se\ debe\ poner\ ya\ que\ funciona\ como\ la\r\n\ firma\ estandar\ del\ m\u00E9todo\ main\ en\ Java\r\n
+numComments=2

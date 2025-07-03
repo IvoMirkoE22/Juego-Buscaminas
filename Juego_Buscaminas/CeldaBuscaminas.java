@@ -30,7 +30,6 @@ public class CeldaBuscaminas
      */
     public CeldaBuscaminas()
     {
-        
         this.estaBloqueada = false;
         this.tieneMina = false;
         this.estaAbierta = false; 
@@ -111,7 +110,6 @@ public class CeldaBuscaminas
         if(!this.estaBloqueada){
             throw new IllegalStateException("No se puede desbloquear una celda que no esté bloqueada");
         }
-        
         this.estaBloqueada = false;
     }
 }

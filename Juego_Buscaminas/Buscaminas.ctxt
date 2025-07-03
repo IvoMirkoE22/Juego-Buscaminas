@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Buscaminas
+comment0.text=\r\n\ La\ clase\ buscaminas\ se\ encargara\ del\ estado\ general\ de\ juego\r\n\ y\ la\ interaccion\ con\ el\ usuario.\ Basicamente\ prepara\ el\ tablero,\r\n\ prepara\ el\ tablero,\ pondra\ minas\ y\ deja\ el\ juego\ listo\ para\ comenzar.\ \r\n\ \r\n\ @author\ (Ivo\ Narv\u00E1ez)\ \r\n\ @version\ (1.0)\r\n
+comment1.params=
+comment1.target=Buscaminas()
+comment1.text=\r\n\ Contructor\ de\ Buscaminas.\ Lanza\ un\ juego\ buscaminas\ con\ un\ tablero\r\n\ de\ 9\ filas\ por\ 9\ columnas,\ con\ 10\ minas.Dentro\ del\ bucle\ se\ muestra\ el\r\n\ tablero,\ se\ le\ pide\ al\ jugador\ una\ acci\u00F3n,\ se\ interpretan\ los\ datos\r\n\ ingresados,\ y\ luego\ se\ ejecuta\ el\ comando\ sobre\ la\ celda\ correspondiente.\r\n
+comment2.params=
+comment2.target=void\ iniciarJuego()
+comment2.text=\r\n\ Iniciar\ el\ juego\r\n
+comment3.params=comando\ fila\ columna
+comment3.target=void\ ejecutarComandoUsuario(java.lang.String,\ int,\ int)
+comment3.text=\r\n\ Ejecuta\ un\ comando\ del\ usuario,\ delegando\ la\ acci\u00F3n\ apropiada\ al\ objeto\ de\ estado\ de\ juego.\r\n\ @param\ comando\ es\ el\ comando\ a\ ejecutar\r\n\ @param\ fila\ es\ la\ fila\ de\ la\ celda\ afectada\r\n\ @param\ columna\ es\ la\ columna\ de\ la\ celda\ afectada\r\n
+numComments=4

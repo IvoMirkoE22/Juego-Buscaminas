@@ -1,0 +1,31 @@
+#BlueJ class context
+comment0.target=LectorEntrada
+comment0.text=\r\n\ LectorEntada\ lee\ y\ valida\ los\ comandos\ que\ el\ usuario\ escribe\ por\ consola\r\n\ para\ el\ juego\ Buscaminas.\ Devuelve\ el\ comando\ y\ las\ coordenadas\ ya\ procesados.\r\n\ \r\n\ Formato\ de\ entrada\ esperada\ (en\ una\ sola\ l\u00EDnea)\r\n\ \ \ \ \ <comando>\ <fila>\ <columna>\r\n\ donde\ comando\ \u2208\ {abrir,\ bloquear,\ desbloquear]\r\n\ \ \ \ \ \ \ fila\ \ \ \ \u2208\ [0,\ Buscaminas.FILAS\ )\r\n\ \ \ \ \ \ \ columna\ \u2208\ [0,\ Buscaminas.COLUMNAS)\r\n\r\n\ Ejemplo\:\ abrir\ 3\ 4\r\n\ \r\n\ @author\ (Ivo\ Narv\u00E1ez)\ \r\n\ @version\ (1.0)\r\n
+comment1.params=
+comment1.target=LectorEntrada()
+comment1.text=\r\n\ Crea\ un\ nuevo\ LectorEntrada\ que\ lee\ texto\ de\ la\ entrada\ est\u00E1ndar.\r\n\ Los\ campos\ se\ inicializan\ en\ valores\ "nulos"\ o\ sentinelas.\r\n
+comment2.params=
+comment2.target=void\ leerEntradaUsuario()
+comment2.text=\r\n\ Lee\ la\ entrada\ del\ usuario\ desde\ stdin\ y\ guarda\ el\ comando\ y\ coordenadas\ en\ los\ campos\ correspondientes.\r\n\ El\ m\u00E9todo\ continuar\u00E1\ leyendo\ hasta\ que\ reciba\ un\ comando\ v\u00E1lido.\r\n\ Lee,\ valida\ y\ almacena\ un\ comando\ del\ usuario.\r\n\ El\ m\u00E9todo\ permanece\ en\ un\ bucle\ hasta\ que\ el\ usuario\ introduce\ una\ l\u00EDnea\ v\u00E1lida.\r\n\ Tras\ una\ lectura\ exitosa,\ los\ campos\ comando,\ coordenadaFila\ y\ coordenadaColumna\r\n\ quedan\ listos\ para\ usarse\ mediante\ sus\ getters.\r\n
+comment3.params=comando
+comment3.target=boolean\ esComandoValido(java.lang.String)
+comment3.text=\r\n\ Verifica\ si\ un\ string\ es\ un\ comando\ v\u00E1lido.\r\n\ Devuelve\ true\ si\ el\ string\ comando\ coincide\ con\ alguna\ constante\ de\ Buscaminas\r\n\ @param\ comando\ es\ el\ string\ a\ verificar\r\n\ @return\ true\ si\ y\ solo\ si\ el\ par\u00E1metro\ es\ un\ comando\ v\u00E1lido\r\n
+comment4.params=coordenada
+comment4.target=boolean\ esCoordenadaFilaValida(java.lang.String)
+comment4.text=\r\n\ Verifica\ si\ un\ string\ es\ una\ coordenada\ de\ fila\ v\u00E1lida.\r\n\ Devuelve\ true\ si\ coordenada\ representa\ una\ fila\ v\u00E1lida\ (0\ <\=\ fila\ <\ FILAS)\r\n\ @param\ coordenada\ es\ el\ string\ a\ verificar\r\n\ @return\ true\ si\ y\ solo\ si\ el\ par\u00E1metro\ es\ una\ coordenada\ de\ fila\ v\u00E1lida\r\n
+comment5.params=coordenada
+comment5.target=boolean\ esCoordenadaColumnaValida(java.lang.String)
+comment5.text=\r\n\ Verifica\ si\ un\ string\ es\ una\ coordenada\ de\ columna\ v\u00E1lida.\r\n\ Devuelve\ true\ si\ coordenada\ representa\ una\ columna\ v\u00E1lida\ (0\ <\=\ col\ <\ COLUMNAS)\r\n\ @param\ coordenada\ es\ el\ string\ a\ verificar\r\n\ @return\ true\ si\ y\ solo\ si\ el\ par\u00E1metro\ es\ una\ coordenada\ de\ columna\ v\u00E1lida\r\n
+comment6.params=mensajeError
+comment6.target=java.lang.String\ uso(java.lang.String)
+comment6.text=\r\n\ Mejora\ un\ mensaje\ de\ error\ con\ intrucciones\ de\ uso.\r\n\ Contruye\ un\ mensaje\ de\ uso\ combinando\ el\ texto\ de\ error\ con\ las\ instrucciones.\r\n\ @param\ mensajeError\ es\ el\ mensaje\ de\ error\ a\ mejorar\r\n\ @return\ un\ mensaje\ que\ incluye\ el\ par\u00E1metro\ con\ instrucciones\ de\ uso\r\n
+comment7.params=
+comment7.target=java.lang.String\ getComando()
+comment7.text=\r\n\ Obtiene\ el\ comando\ le\u00EDdo\r\n\ Precondici\u00F3n\ debe\ llamarse\ a\ leerEntradaUsuario()\ primero.\r\n\ @return\ el\ comando\ le\u00EDdo\ como\ string\r\n
+comment8.params=
+comment8.target=int\ getFila()
+comment8.text=\r\n\ Obtiene\ la\ coordenada\ de\ fila\ le\u00EDda.\r\n\ Precondici\u00F3n\:\ debe\ llamarse\ a\ leerEntradaUsuario()\ primero.\r\n\ @return\ la\ coordenada\ de\ fila\ le\u00EDda\r\n
+comment9.params=
+comment9.target=int\ getColumna()
+comment9.text=\r\n\ Obtiene\ la\ coordenada\ de\ fila\ le\u00EDda\r\n\ Precondici\u00F3n\:\ debe\ llamarse\ a\ leerEntradaUsuario()\ primero.\r\n\ @return\ la\ coordenada\ de\ fila\ le\u00EDda\r\n
+numComments=10

@@ -1,4 +1,4 @@
-
+import java.util.Scanner;
 /**
  * Esta clase es la que arranca todo el programa.
  * Tiene el método main , que es el primer método
@@ -16,6 +16,7 @@ public class PrincipalBuscaminas
     * firma estandar del método main en Java
     */
     public static void main(String args[]){
+     
     /**    
     *Crea una instancia de la clase Buscaminas con new Buscaminas()
     */
@@ -25,7 +26,7 @@ public class PrincipalBuscaminas
     *llamamos al método inciarJuego(), que prepara el tablero,pondra minas
     *y deja el juego listo para empezar.
     */
-    buscaminas.inciarJuego();
+    buscaminas.iniciarJuego();
     
     }
 }

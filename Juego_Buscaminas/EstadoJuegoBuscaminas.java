@@ -20,6 +20,7 @@ public class EstadoJuegoBuscaminas
      * Indica si el juego ha terminado
      */
     private boolean juegoTerminado;
+    
 
     /**
      * Contructor de EstadoJuegoBuscaminas. Crea el tablero principal del juego,que
@@ -31,23 +32,13 @@ public class EstadoJuegoBuscaminas
     public EstadoJuegoBuscaminas()
     {
         tablero = new CeldaBuscaminas[Buscaminas.FILAS][Buscaminas.COLUMNAS];
-        
-        /*
-         * El tablero es un arreglo bi dimensional de Buscaminas.FILAS filas
-         * y Buscaminas.COLUMNAS columnas.
-         * Se carga con Buscaminas.FILAS * Buscaminas.COLUMNAS objetos de tipo
-         * CeldaBuscaminas diferentes.
-         * Dentro del bucle crea cada celda del tablero una por una.Cada CeldaBuscaminas
-         * es un objeto, que representa una casilla del tablero, cada celda tiene métodos propios.
-         */
          
          for(int i = 0; i < Buscaminas.FILAS; i++){
              for(int j = 0; j < Buscaminas.COLUMNAS; j++){
                  tablero[i][j] = new CeldaBuscaminas();
              }
          }
-         
-        //llamamos al método colocar minas aleatorias 
+          
         colocarMinasAleatorias(); 
         juegoTerminado = false;
         
@@ -87,7 +78,7 @@ public class EstadoJuegoBuscaminas
       * Verifica si la celda en las coordenadas válidas está bloqueada (marcada).
       * @param fila coordenada de fila de la posición a verificar.
       * @param columna coordenada de columna de la posición a verificar.
-      * @param true si y solo si la posición (fila,columna) está bloqueada. 
+      * @return true si y solo si la posición (fila,columna) está bloqueada. 
       */
      public boolean estaBloqueada(int fila, int columna){
          return tablero[fila][columna].estaBloqueada();
@@ -132,32 +123,22 @@ public class EstadoJuegoBuscaminas
        * @param columna número de columna donde está ubicada la celda.
        */
        public void abrir(int fila, int columna){
-           //Este método abre la celda en posición (fila,columna)
-           /*
-            * Primero verificamos, si la coordenada de fila y columna resulta no ser válida
-            * se lanza una ecepción que estaa fuera de rango..
-            */
            if(!esCoordenadaValida(fila, columna)){
                throw new IllegalArgumentException("Esta fuera de rango");
            }
-           //Crea una variable llamada matriz que representa la celda que queremos abrir
-           CeldaBuscaminas matriz = tablero[fila][columna];
-           //Solo se puede abrir una celda cerrada y no bloqueada
-           //Si ya está abierta o tiene bandera(bloqueada), no se puede abrir
-           if(matriz.estaAbierta() || matriz.estaBloqueada()){
+           
+           CeldaBuscaminas celda = tablero[fila][columna];
+           
+           if(celda.estaAbierta() || celda.estaBloqueada()){
                throw new IllegalArgumentException("La celda debe estar cerrada y no bloqueada");
            }
            
-           matriz.abrir();
-           //Si esa celda tiene una mina,perdes.Se termina el juego.
-           if(matriz.tieneMina()){
+           celda.abrir();
+          
+           if(celda.tieneMina()){
                terminarJuego();
            }
-           /*
-            * Si la celda abierta no tiene minas alrededor, entonces
-            * Se activa el efecto cascada, abre todas las celdas vecinas que también
-            * estén cerradas y no tengan minas
-            */
+           
            if(contarMinasVecinas(fila,columna) == 0){
                for(int i = fila-1; i <= fila+1;i++){
                    for(int j = columna - 1; j <= columna+1; j++){
@@ -169,12 +150,7 @@ public class EstadoJuegoBuscaminas
                    }
                }
            }
-           /*
-            * Si después de abrir la celda (y potencialmente del efecto cascada)solo queda cerradas
-            * las celdas con minas (es decir, no quedan celdas sin minas cerradas), el juego también termina.
-            * Verifica si ya se abrieron todas las celdas que no tienen minas.
-            * Si solo quedan cerradas las que tienen minas, significa que ganaste, y el juego termina automaticamente.
-            */
+          
             if(contarCeldasCerradas() == Buscaminas.MINAS){
                 terminarJuego();
             }
@@ -185,6 +161,7 @@ public class EstadoJuegoBuscaminas
         */
        public void terminarJuego() {
            juegoTerminado = true;
+                      
        }
        
        /**
@@ -204,6 +181,9 @@ public class EstadoJuegoBuscaminas
          * @return número de celdas vecinas que contienen minas. El resultado esta ente 0 y 8.
          */
         public int contarMinasVecinas(int fila, int columna){
+            if(!esCoordenadaValida(fila, columna)){
+                throw new IllegalArgumentException("Coordenadas fuera de rango");
+            }
             
             int suma=0;
             for(int i = fila -1; i <= fila+1;i++){
@@ -301,7 +281,7 @@ public class EstadoJuegoBuscaminas
             
             resultado.append("   --------------------------\n");
             resultado.append("   0  1  2  3  4  5  6  7  8 \n");
-
+            
             return resultado.toString();
         }       
     }
