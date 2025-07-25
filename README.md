@@ -20,8 +20,8 @@ Se trata de una versión por consola del clásico juego **Buscaminas**, completa
 
 ## 📷 Vista previa desde consola
 
-![Vista previa](Juego_Buscaminas/Juego_Buscaminas/MultimediaBuscaminas/VistaPreviaDesdeConsola/Imagen2.jpg)
-![Diagrama de clase](Juego_Buscaminas/Juego_Buscaminas/MultimediaBuscaminas/DiagramaDeClase/Imagen1.jpg)
+![Vista previa](Juego_Buscaminas/MultimediaBuscaminas/VistaPreviaDesdeConsola/Imagen2.jpg)
+![Diagrama de clase](Juego_Buscaminas/MultimediaBuscaminas/DiagramaDeClase/Imagen1.jpg)
 ---
 
 ## 🧩 Clases principales
